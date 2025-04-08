@@ -1,21 +1,15 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+// Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAT2PsuKWDR0GK-LzmJ9WqW0zYOWbE8-CQ",
   authDomain: "rps-test-ba2ea.firebaseapp.com",
   databaseURL: "https://rps-test-ba2ea-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "rps-test-ba2ea",
-  storageBucket: "rps-test-ba2ea.firebasestorage.app",
+  storageBucket: "rps-test-ba2ea.appspot.com",
   messagingSenderId: "910355052499",
   appId: "1:910355052499:web:2fb17e2de4377eebe66126"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // Prompt for player ID
