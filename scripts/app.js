@@ -62,7 +62,7 @@ async function hostGame() {
   lobby.style.display = "none";
   leaveButton.style.display = "inline-block";
   status.innerText = "Room created. Waiting for a player to join...";
-  listenForMoves();
+  listenForMoves(true); // true indicates this is the host
 }
 
 async function joinGame() {
@@ -91,7 +91,7 @@ async function joinGame() {
   lobby.style.display = "none";
   leaveButton.style.display = "inline-block";
   status.innerText = "Joined room. Waiting for moves...";
-  listenForMoves();
+  listenForMoves(false);
 }
 
 moveButtons.forEach(button => {
@@ -103,7 +103,7 @@ moveButtons.forEach(button => {
   });
 });
 
-function listenForMoves() {
+function listenForMoves(isHost) {
   onValue(ref(db, currentRoom), async snapshot => {
     const data = snapshot.val();
     if (!data || !data.player1 || !data.player2) {
@@ -115,8 +115,12 @@ function listenForMoves() {
     const p2 = data.player2.move;
     const bothPlayersPresent = data.player1 && data.player2;
 
-    // ✅ Update status once both players are in the room
-    if (bothPlayersPresent) {
+    // ✅ Show this only once when second player joins
+    if (isHost && bothPlayersPresent && status.innerText.includes("Waiting for a player")) {
+      status.innerText = "Both players joined. Make your move!";
+    }
+
+    if (!isHost && bothPlayersPresent) {
       status.innerText = "Both players joined. Make your move!";
     }
 
@@ -150,7 +154,6 @@ async function resetMoves() {
   result.innerText = "";
   status.innerText = "New round. Make your move!";
 
-  // Re-enable buttons after reset if both players still in room
   const snapshot = await get(ref(db, currentRoom));
   const data = snapshot.val();
   if (data && data.player1 && data.player2) {
