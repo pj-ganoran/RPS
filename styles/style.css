@@ -13,17 +13,7 @@ body {
 #status {
   font-size: 1.2em;
   margin-top: 20px;
-  color: #333;
-}
-
-#roomName {
-  padding: 10px;
-  font-size: 1.2em;
-  margin: 10px;
-  width: 250px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  text-align: center;
+  color: #ccc;
 }
 
 .moveButton {
@@ -33,44 +23,51 @@ body {
   cursor: pointer;
   border-radius: 5px;
   border: none;
-  background-color: #4CAF50;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.moveButton:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-.moveButton:hover:not(:disabled) {
-  background-color: #45a049;
-}
-
-#leaveButton {
-  padding: 10px 20px;
-  font-size: 1.2em;
-  margin: 20px;
-  background-color: #f44336;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  border: none;
-  transition: background-color 0.3s ease;
-}
-
-#leaveButton:hover {
-  background-color: #e53935;
 }
 
 #result {
+  margin: 20px;
   font-size: 1.5em;
   font-weight: bold;
-  margin-top: 20px;
-  color: #333;
 }
 
-/* Styling for buttons container */
-div {
+/* Styled input for room name */
+.styled-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+/* Styled buttons for Host/Join */
+.styled-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.styled-button:hover {
+  background-color: #45a049;
+}
+
+/* Leave Room Button */
+.leave-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 16px;
   margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.leave-button:hover {
+  background-color: #c0392b;
 }
