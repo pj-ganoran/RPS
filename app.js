@@ -9,7 +9,6 @@ const firebaseConfig = {
   appId: "1:910355052499:web:2fb17e2de4377eebe66126"
 };
 
-
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -31,20 +30,33 @@ messageForm.addEventListener('submit', (e) => {
   }
 });
 
-// Listen for new messages
+// 🔄 Real-time listener for added messages
 messagesRef.on('child_added', (snapshot) => {
   const message = snapshot.val();
   const li = document.createElement('li');
+  li.setAttribute('data-id', snapshot.key);
   li.textContent = message.text;
   messageList.appendChild(li);
 });
 
-// 🔴 Clear messages
+// 🔄 Real-time listener for removed messages
+messagesRef.on('child_removed', (snapshot) => {
+  const li = messageList.querySelector(`[data-id="${snapshot.key}"]`);
+  if (li) {
+    li.remove();
+  }
+});
+
+// 🔁 Also reset whole list if everything is cleared
+messagesRef.on('value', (snapshot) => {
+  if (!snapshot.exists()) {
+    messageList.innerHTML = '';
+  }
+});
+
+// 🔴 Clear messages (triggered by button)
 clearMessagesBtn.addEventListener('click', () => {
   messagesRef.remove()
-      .then(() => {
-        messageList.innerHTML = ''; // Clear UI
-      })
       .catch((error) => {
         console.error("Error clearing messages:", error);
       });
