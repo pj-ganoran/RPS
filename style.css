@@ -30,6 +30,8 @@ h2 {
 }
 
 #messageList li {
+  font-family: Arial;
+  font-weight: 600;
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
