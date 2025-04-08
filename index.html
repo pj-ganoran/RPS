@@ -1,16 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>RPS Game</title>
+  <meta charset="UTF-8">
+  <title>Online Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+    button {
+      font-size: 20px;
+      margin: 10px;
+      padding: 10px 20px;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 24px;
+    }
+  </style>
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
 </head>
 <body>
+
   <h1>Rock Paper Scissors</h1>
-  <button onclick="makeMove('rock')">Rock</button>
-  <button onclick="makeMove('paper')">Paper</button>
-  <button onclick="makeMove('scissors')">Scissors</button>
+
+  <div>
+    <button onclick="makeMove('rock')">🪨 Rock</button>
+    <button onclick="makeMove('paper')">📄 Paper</button>
+    <button onclick="makeMove('scissors')">✂️ Scissors</button>
+  </div>
+
+  <p id="status">Waiting for players...</p>
   <p id="result"></p>
+
   <script src="script.js"></script>
 </body>
 </html>
