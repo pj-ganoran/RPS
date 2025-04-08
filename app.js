@@ -9,6 +9,7 @@ const firebaseConfig = {
   appId: "1:910355052499:web:2fb17e2de4377eebe66126"
 };
 
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -18,6 +19,7 @@ const messagesRef = db.ref('messages');
 const messageForm = document.getElementById('messageForm');
 const messageInput = document.getElementById('messageInput');
 const messageList = document.getElementById('messageList');
+const clearMessagesBtn = document.getElementById('clearMessagesBtn');
 
 // Send message
 messageForm.addEventListener('submit', (e) => {
@@ -35,4 +37,17 @@ messagesRef.on('child_added', (snapshot) => {
   const li = document.createElement('li');
   li.textContent = message.text;
   messageList.appendChild(li);
+});
+
+// 🔴 Clear messages
+clearMessagesBtn.addEventListener('click', () => {
+  if (confirm("Are you sure you want to delete all messages?")) {
+    messagesRef.remove()
+      .then(() => {
+        messageList.innerHTML = ''; // Clear UI
+      })
+      .catch((error) => {
+        console.error("Error clearing messages:", error);
+      });
+  }
 });
