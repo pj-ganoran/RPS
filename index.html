@@ -11,18 +11,21 @@
     <h1>Rock Paper Scissors</h1>
     <br>
     <div id="lobby">
-      <input type="text" id="roomName" placeholder="Enter room name" />
-      <button onclick="hostGame()">Host Game</button>
-      <button onclick="joinGame()">Join Game</button>
-    </div>
-    <br>
-    <div id="status">Waiting for another player...</div>
-    <div class="choices">
-      <button onclick="makeMove('rock')">🪨 Rock</button>
-      <button onclick="makeMove('paper')">📄 Paper</button>
-      <button onclick="makeMove('scissors')">✂️ Scissors</button>
-    </div>
-    <div id="result"></div>
+    <input type="text" id="roomName" placeholder="Enter Room Name">
+    <button class="moveButton" onclick="hostGame()">Host Game</button>
+    <button class="moveButton" onclick="joinGame()">Join Game</button>
+  </div>
+
+  <div id="status"></div>
+  <div id="result"></div>
+
+  <div>
+    <button class="moveButton" onclick="makeMove('rock')" disabled>Rock</button>
+    <button class="moveButton" onclick="makeMove('paper')" disabled>Paper</button>
+    <button class="moveButton" onclick="makeMove('scissors')" disabled>Scissors</button>
+  </div>
+
+  <button id="leaveButton" onclick="leaveRoom()">Leave Room</button>
   </div>
 
   <script type="module" src="/scripts/app.js"></script>
