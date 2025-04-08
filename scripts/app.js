@@ -1,3 +1,4 @@
+// app.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
 import {
   getDatabase,
@@ -59,6 +60,7 @@ async function hostGame() {
   });
 
   lobby.style.display = "none";
+  leaveButton.style.display = "inline-block";
   status.innerText = "Room created. Waiting for a player to join...";
   listenForMoves();
 }
@@ -87,6 +89,7 @@ async function joinGame() {
   await set(ref(db, `${currentRoom}/player2`), { move: null });
 
   lobby.style.display = "none";
+  leaveButton.style.display = "inline-block";
   status.innerText = "Joined room. Waiting for moves...";
   listenForMoves();
 }
@@ -96,6 +99,7 @@ moveButtons.forEach(button => {
     const move = button.dataset.move;
     if (!currentRoom || !playerId) return;
     await set(ref(db, `${currentRoom}/${playerId}/move`), move);
+    setMoveButtonsState(false); // Disable after choosing
   });
 });
 
@@ -109,9 +113,12 @@ function listenForMoves() {
 
     const p1 = data.player1.move;
     const p2 = data.player2.move;
-
     const bothPlayersPresent = data.player1 && data.player2;
-    setMoveButtonsState(bothPlayersPresent);
+
+    // Enable if both players are present and current player hasn't made a move
+    if (bothPlayersPresent && !data[playerId].move) {
+      setMoveButtonsState(true);
+    }
 
     if (p1 && p2) {
       const winner = getWinner(p1, p2);
@@ -137,6 +144,13 @@ async function resetMoves() {
   await set(ref(db, `${currentRoom}/player2/move`), null);
   result.innerText = "";
   status.innerText = "New round. Make your move!";
+
+  // Re-enable buttons after reset if both players still in room
+  const snapshot = await get(ref(db, currentRoom));
+  const data = snapshot.val();
+  if (data && data.player1 && data.player2) {
+    setMoveButtonsState(true);
+  }
 }
 
 async function leaveRoom() {
