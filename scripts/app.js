@@ -42,7 +42,11 @@ async function hostGame() {
   playerId = "player1";
   opponentId = "player2";
 
-  await set(ref(db, `${currentRoom}/${playerId}`), { move: null });
+  // ✅ Store a recognizable structure so room is visible immediately
+  await set(ref(db, currentRoom), {
+    player1: { move: null },
+    createdAt: Date.now()
+  });
 
   document.getElementById("lobby").style.display = "none";
   status.innerText = "Room created. Waiting for a player to join...";
@@ -59,7 +63,7 @@ async function joinGame() {
   const snapshot = await get(roomRef);
   const data = snapshot.val();
 
-  // ✅ Fix: Allow join if player1 exists in any form (even if move is still null)
+  // ✅ Fix: Detect room properly now that host stores `createdAt` & player1
   if (!data || !("player1" in data)) {
     alert("Room doesn't exist or host has not created it yet.");
     return;
