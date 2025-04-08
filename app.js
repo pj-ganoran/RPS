@@ -41,13 +41,11 @@ messagesRef.on('child_added', (snapshot) => {
 
 // 🔴 Clear messages
 clearMessagesBtn.addEventListener('click', () => {
-  if (confirm("Are you sure you want to delete all messages?")) {
-    messagesRef.remove()
+  messagesRef.remove()
       .then(() => {
         messageList.innerHTML = ''; // Clear UI
       })
       .catch((error) => {
         console.error("Error clearing messages:", error);
       });
-  }
 });
