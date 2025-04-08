@@ -115,6 +115,11 @@ function listenForMoves() {
     const p2 = data.player2.move;
     const bothPlayersPresent = data.player1 && data.player2;
 
+    // ✅ Update status once both players are in the room
+    if (bothPlayersPresent) {
+      status.innerText = "Both players joined. Make your move!";
+    }
+
     // Enable if both players are present and current player hasn't made a move
     if (bothPlayersPresent && !data[playerId].move) {
       setMoveButtonsState(true);
