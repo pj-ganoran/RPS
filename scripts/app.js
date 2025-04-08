@@ -59,7 +59,8 @@ async function joinGame() {
   const snapshot = await get(roomRef);
   const data = snapshot.val();
 
-  if (!data || !data.player1) {
+  // ✅ Fix: Allow join even if host hasn't made a move yet
+  if (!data || typeof data.player1 !== "object") {
     alert("Room doesn't exist or host has not created it yet.");
     return;
   }
