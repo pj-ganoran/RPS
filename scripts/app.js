@@ -38,8 +38,13 @@ async function hostGame() {
   if (!name) return alert("Enter a room name");
   currentRoom = name;
 
-  // Clear room (start fresh)
-  await remove(ref(db, currentRoom));
+  // Check if the room already exists before creating
+  const roomRef = ref(db, currentRoom);
+  const snapshot = await get(roomRef);
+  if (snapshot.exists()) {
+    alert("Room already exists. Please try a different name.");
+    return;
+  }
 
   playerId = "player1";
   opponentId = "player2";
@@ -65,13 +70,13 @@ async function joinGame() {
   const snapshot = await get(roomRef);
   const data = snapshot.val();
 
-  // ✅ Detect room properly now that host stores `createdAt` & player1
-  if (!data || !("player1" in data)) {
+  // ✅ Check if room exists and if player1 exists in the room
+  if (!data || !data.player1) {
     alert("Room doesn't exist or host has not created it yet.");
     return;
   }
 
-  if ("player2" in data) {
+  if (data.player2) {
     alert("Room is full.");
     return;
   }
@@ -79,6 +84,7 @@ async function joinGame() {
   playerId = "player2";
   opponentId = "player1";
 
+  // ✅ Add player2 to the room
   await set(ref(db, `${currentRoom}/${playerId}`), { move: null });
 
   document.getElementById("lobby").style.display = "none";
