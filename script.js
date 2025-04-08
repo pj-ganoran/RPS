@@ -17,7 +17,7 @@ const playerId = prompt("Enter your player ID (player1 or player2)");
 const room = "rps-room";
 
 // Listen for both players' moves
-db.ref(`${room}/moves`).on("value", (snapshot) => {
+db.ref(\`\${room}/moves\`).on("value", (snapshot) => {
   const moves = snapshot.val();
   if (moves && moves.player1 && moves.player2) {
     showResult(moves);
@@ -26,8 +26,8 @@ db.ref(`${room}/moves`).on("value", (snapshot) => {
 
 // Make a move
 function makeMove(choice) {
-  db.ref(`${room}/moves/${playerId}`).set(choice);
-  document.getElementById("status").textContent = `You chose ${choice}. Waiting for opponent...`;
+  db.ref(\`\${room}/moves/\${playerId}\`).set(choice);
+  document.getElementById("status").textContent = \`You chose \${choice}. Waiting for opponent...\`;
 }
 
 // Show result when both have played
@@ -49,12 +49,12 @@ function showResult(moves) {
     result = "Player 2 wins!";
   }
 
-  document.getElementById("status").textContent = `Player 1 chose ${p1}. Player 2 chose ${p2}.`;
+  document.getElementById("status").textContent = \`Player 1 chose \${p1}. Player 2 chose \${p2}.\`;
   document.getElementById("result").textContent = result;
 
   // Clear moves after 5 seconds
   setTimeout(() => {
-    db.ref(`${room}/moves`).remove();
+    db.ref(\`\${room}/moves\`).remove();
     document.getElementById("status").textContent = "Waiting for players...";
     document.getElementById("result").textContent = "";
   }, 5000);
