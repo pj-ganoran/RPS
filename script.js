@@ -1,13 +1,13 @@
 // Your Firebase config
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_DOMAIN",
-    databaseURL: "YOUR_DB_URL",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_BUCKET",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
+  apiKey: "AIzaSyAT2PsuKWDR0GK-LzmJ9WqW0zYOWbE8-CQ",
+  authDomain: "rps-test-ba2ea.firebaseapp.com",
+  databaseURL: "https://rps-test-ba2ea-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rps-test-ba2ea",
+  storageBucket: "rps-test-ba2ea.firebasestorage.app",
+  messagingSenderId: "910355052499",
+  appId: "1:910355052499:web:2fb17e2de4377eebe66126"
+};
   
   // Initialize Firebase
   const app = firebase.initializeApp(firebaseConfig);
