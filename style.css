@@ -27,11 +27,11 @@ h2 {
   overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
+  font-family: Arial;
+  font-weight: 600;
 }
 
 #messageList li {
-  font-family: Arial;
-  font-weight: 600;
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
