@@ -13,4 +13,34 @@ body {
     padding: 10px 20px;
     cursor: pointer;
   }
-  
+
+    #lobby {
+      margin-top: 50px;
+    }
+    #status {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+    #roomName {
+      padding: 10px;
+      font-size: 1em;
+      margin: 10px;
+    }
+    .moveButton {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      margin: 10px;
+      cursor: pointer;
+    }
+    .moveButton:disabled {
+      background-color: gray;
+      cursor: not-allowed;
+    }
+    #leaveButton {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      margin: 20px;
+      background-color: #f44336;
+      color: white;
+      cursor: pointer;
+    }
