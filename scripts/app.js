@@ -29,6 +29,8 @@ let currentRoom = null;
 
 const status = document.getElementById("status");
 const result = document.getElementById("result");
+const moveButtons = document.querySelectorAll(".moveButton");
+const leaveButton = document.getElementById("leaveButton");
 
 // 🧠 Host Game — always becomes player1
 async function hostGame() {
@@ -42,7 +44,7 @@ async function hostGame() {
   playerId = "player1";
   opponentId = "player2";
 
-  // ✅ Store a recognizable structure so room is visible immediately
+  // Store initial room info (player1 with null move)
   await set(ref(db, currentRoom), {
     player1: { move: null },
     createdAt: Date.now()
@@ -63,7 +65,7 @@ async function joinGame() {
   const snapshot = await get(roomRef);
   const data = snapshot.val();
 
-  // ✅ Fix: Detect room properly now that host stores `createdAt` & player1
+  // ✅ Detect room properly now that host stores `createdAt` & player1
   if (!data || !("player1" in data)) {
     alert("Room doesn't exist or host has not created it yet.");
     return;
@@ -90,6 +92,7 @@ function makeMove(move) {
   const playerRef = ref(db, `${currentRoom}/${playerId}`);
   set(playerRef, { move });
   status.innerText = `You chose ${move}. Waiting for opponent...`;
+  disableMoveButtons();
 }
 
 // 🧠 Game logic
@@ -118,11 +121,11 @@ function listenForMoves() {
       const outcome = decide(you, them);
 
       result.innerText = `You chose ${you}, opponent chose ${them}. ${outcome}`;
-      status.innerText = "Game over. Restarting in 4s...";
+      status.innerText = "Game over. Restarting in 5s...";
 
       setTimeout(() => {
         resetRoom();
-      }, 4000);
+      }, 5000);
     }
   });
 }
@@ -137,9 +140,33 @@ function resetRoom() {
   } else {
     status.innerText = "Waiting for host to restart game...";
   }
+  enableMoveButtons();
+}
+
+// 🏃 Leave the room
+function leaveRoom() {
+  remove(ref(db, currentRoom));
+  document.getElementById("lobby").style.display = "block";
+  status.innerText = "You left the room. Join or host a new game.";
+  result.innerText = "";
+  enableMoveButtons();
+}
+
+// Enable/Disable move buttons based on game state
+function disableMoveButtons() {
+  moveButtons.forEach(button => {
+    button.disabled = true;
+  });
+}
+
+function enableMoveButtons() {
+  moveButtons.forEach(button => {
+    button.disabled = false;
+  });
 }
 
 // 🖱 Hook to window
 window.hostGame = hostGame;
 window.joinGame = joinGame;
 window.makeMove = makeMove;
+window.leaveRoom = leaveRoom;
