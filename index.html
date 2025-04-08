@@ -11,21 +11,21 @@
     <h1>Rock Paper Scissors</h1>
     <br>
     <div id="lobby">
-    <input type="text" id="roomName" placeholder="Enter Room Name">
-    <button class="moveButton" onclick="hostGame()">Host Game</button>
-    <button class="moveButton" onclick="joinGame()">Join Game</button>
-  </div>
+      <input type="text" id="roomName" class="styled-input" placeholder="Enter Room Name">
+      <button class="styled-button" onclick="hostGame()">Host Game</button>
+      <button class="styled-button" onclick="joinGame()">Join Game</button>
+    </div>
 
-  <div id="status"></div>
-  <div id="result"></div>
+    <div id="status"></div>
+    <div id="result"></div>
 
-  <div>
-    <button class="moveButton" onclick="makeMove('rock')" disabled>Rock</button>
-    <button class="moveButton" onclick="makeMove('paper')" disabled>Paper</button>
-    <button class="moveButton" onclick="makeMove('scissors')" disabled>Scissors</button>
-  </div>
+    <div>
+      <button class="moveButton" data-move="rock" disabled>Rock</button>
+      <button class="moveButton" data-move="paper" disabled>Paper</button>
+      <button class="moveButton" data-move="scissors" disabled>Scissors</button>
+    </div>
 
-  <button id="leaveButton" onclick="leaveRoom()">Leave Room</button>
+    <button id="leaveButton" class="leave-button" onclick="leaveRoom()">Leave Room</button>
   </div>
 
   <script type="module" src="/scripts/app.js"></script>
