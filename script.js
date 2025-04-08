@@ -1,5 +1,9 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// Replace with your own Firebase config from Firebase Console
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAT2PsuKWDR0GK-LzmJ9WqW0zYOWbE8-CQ",
   authDomain: "rps-test-ba2ea.firebaseapp.com",
@@ -11,7 +15,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // Prompt for player ID
