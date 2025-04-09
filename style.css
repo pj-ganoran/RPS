@@ -103,6 +103,7 @@ body.dark-mode div.container {
 
 body.dark-mode input {
   background-color: #484848;
+  text-color: #DDD;
 }
 
 button#toggleDarkMode {
