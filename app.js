@@ -14,6 +14,25 @@ const db = firebase.database();
 const messagesRef = db.ref('messages');
 const usersOnlineRef = db.ref('usersOnline');
 
+// Generate or retrieve unique user ID
+let userId = localStorage.getItem('userId');
+if (!userId) {
+  userId = 'user_' + Math.random().toString(36).substring(2, 10);
+  localStorage.setItem('userId', userId);
+}
+
+// Assign each user a consistent color
+function getUserColor(id) {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const hue = Math.abs(hash) % 360;
+  const saturation = 60 + (Math.abs(hash) % 20); // 60-80%
+  const lightness = 50 + (Math.abs(hash) % 10);  // 50-60%
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
+
 // DOM Elements
 const messageForm = document.getElementById('messageForm');
 const messageInput = document.getElementById('messageInput');
@@ -35,7 +54,7 @@ messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const text = messageInput.value.trim();
   if (text) {
-    const newMessageRef = messagesRef.push({ text });
+    const newMessageRef = messagesRef.push({ text, userId });
 
     // ✅ Delete oldest messages if over 10
     messagesRef
@@ -45,7 +64,7 @@ messageForm.addEventListener('submit', (e) => {
         const keys = Object.keys(snapshot.val() || {});
         const excess = keys.length - 10;
         if (excess > 0) {
-          const keysToRemove = keys.slice(0, excess); // remove oldest
+          const keysToRemove = keys.slice(0, excess);
           keysToRemove.forEach(key => messagesRef.child(key).remove());
         }
       });
@@ -65,10 +84,13 @@ function loadLast10Messages() {
         const message = childSnapshot.val();
         const li = document.createElement('li');
         li.setAttribute('data-id', childSnapshot.key);
-        li.textContent = message.text;
+
+        const color = getUserColor(message.userId || '');
+        const dot = `<span class="user-dot" style="background-color: ${color};"></span>`;
+        li.innerHTML = `${dot} ${message.text}`;
         messageList.appendChild(li);
       });
-      scrollToBottom(); // 👇 Auto-scroll
+      scrollToBottom();
     });
 }
 
