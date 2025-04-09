@@ -8,7 +8,6 @@ const firebaseConfig = {
   appId: "1:910355052499:web:2fb17e2de4377eebe66126"
 };
 
-
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -31,12 +30,26 @@ usersOnlineRef.on('value', (snapshot) => {
   userCount.textContent = `Users online: ${count}`;
 });
 
-// 📨 Send new message
+// 📨 Send new message and prune database
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const text = messageInput.value.trim();
   if (text) {
-    messagesRef.push({ text });
+    const newMessageRef = messagesRef.push({ text });
+
+    // ✅ Delete oldest messages if over 10
+    messagesRef
+      .orderByKey()
+      .once('value')
+      .then(snapshot => {
+        const keys = Object.keys(snapshot.val() || {});
+        const excess = keys.length - 10;
+        if (excess > 0) {
+          const keysToRemove = keys.slice(0, excess); // remove oldest
+          keysToRemove.forEach(key => messagesRef.child(key).remove());
+        }
+      });
+
     messageInput.value = '';
   }
 });
@@ -47,7 +60,7 @@ function loadLast10Messages() {
     .orderByKey()
     .limitToLast(10)
     .on('value', (snapshot) => {
-      messageList.innerHTML = ''; // Clear existing messages
+      messageList.innerHTML = '';
       snapshot.forEach((childSnapshot) => {
         const message = childSnapshot.val();
         const li = document.createElement('li');
