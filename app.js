@@ -1,4 +1,3 @@
-// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAT2PsuKWDR0GK-LzmJ9WqW0zYOWbE8-CQ",
   authDomain: "rps-test-ba2ea.firebaseapp.com",
@@ -13,14 +12,16 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const messagesRef = db.ref('messages');
+const usersOnlineRef = db.ref('usersOnline');
 
 // DOM Elements
 const messageForm = document.getElementById('messageForm');
 const messageInput = document.getElementById('messageInput');
 const messageList = document.getElementById('messageList');
 const clearMessagesBtn = document.getElementById('clearMessagesBtn');
+const userCount = document.getElementById('userCount');
 
-// Send message
+// 🔄 Send message
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const text = messageInput.value.trim();
@@ -30,7 +31,7 @@ messageForm.addEventListener('submit', (e) => {
   }
 });
 
-// 🔄 Real-time listener for added messages
+// 🔄 Listen for added messages
 messagesRef.on('child_added', (snapshot) => {
   const message = snapshot.val();
   const li = document.createElement('li');
@@ -39,7 +40,7 @@ messagesRef.on('child_added', (snapshot) => {
   messageList.appendChild(li);
 });
 
-// 🔄 Real-time listener for removed messages
+// 🔄 Listen for removed messages
 messagesRef.on('child_removed', (snapshot) => {
   const li = messageList.querySelector(`[data-id="${snapshot.key}"]`);
   if (li) {
@@ -47,17 +48,26 @@ messagesRef.on('child_removed', (snapshot) => {
   }
 });
 
-// 🔁 Also reset whole list if everything is cleared
+// 🔄 Clear entire list if no data exists
 messagesRef.on('value', (snapshot) => {
   if (!snapshot.exists()) {
     messageList.innerHTML = '';
   }
 });
 
-// 🔴 Clear messages (triggered by button)
+// 🔴 Clear all messages button
 clearMessagesBtn.addEventListener('click', () => {
-  messagesRef.remove()
-      .catch((error) => {
-        console.error("Error clearing messages:", error);
-      });
+  if (confirm("Are you sure you want to delete all messages?")) {
+    messagesRef.remove().catch(console.error);
+  }
+});
+
+// ✅ Live user presence tracking
+const userRef = usersOnlineRef.push(true); // Add this client
+userRef.onDisconnect().remove();           // Auto-remove on disconnect
+
+// 🟢 Count connected users
+usersOnlineRef.on('value', (snapshot) => {
+  const count = snapshot.numChildren();
+  userCount.textContent = `Users online: ${count}`;
 });
