@@ -68,7 +68,5 @@ loadLast10Messages();
 
 // 🧹 Clear all messages
 clearMessagesBtn.addEventListener('click', () => {
-  if (confirm("Are you sure you want to delete all messages?")) {
-    messagesRef.remove().catch(console.error);
-  }
+  messagesRef.remove().catch(console.error);
 });
