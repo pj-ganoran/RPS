@@ -30,6 +30,8 @@ h2 {
   font-family: Arial;
   font-weight: 600;
   font-size: 12px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 #messageList li {
@@ -74,4 +76,5 @@ button {
   font-weight: bold;
   text-align: center;
   margin: 10px 0;
+  font-size: 12px;
 }
