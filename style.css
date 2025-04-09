@@ -29,6 +29,7 @@ h2 {
   border-radius: 8px;
   font-family: Arial;
   font-weight: 600;
+  font-size: 12px;
 }
 
 #messageList li {
@@ -67,4 +68,10 @@ button {
   border-radius: 8px;
   border: none;
   cursor: pointer;
+}
+
+#userCount {
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
 }
