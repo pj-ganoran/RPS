@@ -23,14 +23,13 @@ h2 {
   list-style: none;
   padding: 0;
   margin: 20px 0;
-  max-height: 300px;
+  max-height: 200px;
   overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-family: Arial;
   font-weight: 600;
   font-size: 12px;
-  overflow-y: auto;
   scroll-behavior: smooth;
 }
 
