@@ -8,6 +8,7 @@ const firebaseConfig = {
   appId: "1:910355052499:web:2fb17e2de4377eebe66126"
 };
 
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -21,7 +22,16 @@ const messageList = document.getElementById('messageList');
 const clearMessagesBtn = document.getElementById('clearMessagesBtn');
 const userCount = document.getElementById('userCount');
 
-// 🔄 Send message
+// 🟢 Presence tracking
+const userRef = usersOnlineRef.push(true);
+userRef.onDisconnect().remove();
+
+usersOnlineRef.on('value', (snapshot) => {
+  const count = snapshot.numChildren();
+  userCount.textContent = `Users online: ${count}`;
+});
+
+// 📨 Send new message
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const text = messageInput.value.trim();
@@ -31,43 +41,34 @@ messageForm.addEventListener('submit', (e) => {
   }
 });
 
-// 🔄 Listen for added messages
-messagesRef.on('child_added', (snapshot) => {
-  const message = snapshot.val();
-  const li = document.createElement('li');
-  li.setAttribute('data-id', snapshot.key);
-  li.textContent = message.text;
-  messageList.appendChild(li);
-});
+// 🔄 Load and listen to only the latest 10 messages
+function loadLast10Messages() {
+  messagesRef
+    .orderByKey()
+    .limitToLast(10)
+    .on('value', (snapshot) => {
+      messageList.innerHTML = ''; // Clear existing messages
+      snapshot.forEach((childSnapshot) => {
+        const message = childSnapshot.val();
+        const li = document.createElement('li');
+        li.setAttribute('data-id', childSnapshot.key);
+        li.textContent = message.text;
+        messageList.appendChild(li);
+      });
+      scrollToBottom(); // 👇 Auto-scroll
+    });
+}
 
-// 🔄 Listen for removed messages
-messagesRef.on('child_removed', (snapshot) => {
-  const li = messageList.querySelector(`[data-id="${snapshot.key}"]`);
-  if (li) {
-    li.remove();
-  }
-});
+// 👇 Scroll to bottom of message list
+function scrollToBottom() {
+  messageList.scrollTop = messageList.scrollHeight;
+}
 
-// 🔄 Clear entire list if no data exists
-messagesRef.on('value', (snapshot) => {
-  if (!snapshot.exists()) {
-    messageList.innerHTML = '';
-  }
-});
+loadLast10Messages();
 
-// 🔴 Clear all messages button
+// 🧹 Clear all messages
 clearMessagesBtn.addEventListener('click', () => {
   if (confirm("Are you sure you want to delete all messages?")) {
     messagesRef.remove().catch(console.error);
   }
-});
-
-// ✅ Live user presence tracking
-const userRef = usersOnlineRef.push(true); // Add this client
-userRef.onDisconnect().remove();           // Auto-remove on disconnect
-
-// 🟢 Count connected users
-usersOnlineRef.on('value', (snapshot) => {
-  const count = snapshot.numChildren();
-  userCount.textContent = `Users online: ${count}`;
 });
