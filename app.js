@@ -49,6 +49,12 @@ usersOnlineRef.on('value', (snapshot) => {
   userCount.textContent = `Users online: ${count}`;
 });
 
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 // 📨 Send new message and prune database
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -88,8 +94,9 @@ function loadLast10Messages() {
         const color = getUserColor(message.userId || '');
         const fontClass = getUserFontClass(message.userId || '');
         const dot = `<span class="user-dot" style="background-color: ${color};"></span>`;
+        const safeText = escapeHTML(message.text);
         li.classList.add(fontClass);
-        li.innerHTML = `${dot} ${message.text}`;
+        li.innerHTML = `${dot} ${safeText}`;
         messageList.appendChild(li);
       });
       scrollToBottom();
