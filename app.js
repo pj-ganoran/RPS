@@ -86,7 +86,9 @@ function loadLast10Messages() {
         li.setAttribute('data-id', childSnapshot.key);
 
         const color = getUserColor(message.userId || '');
+        const fontClass = getUserFontClass(message.userId || '');
         const dot = `<span class="user-dot" style="background-color: ${color};"></span>`;
+        li.classList.add(fontClass);
         li.innerHTML = `${dot} ${message.text}`;
         messageList.appendChild(li);
       });
@@ -126,3 +128,23 @@ darkModeToggle.addEventListener('click', () => {
   localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
   updateDarkModeButton();
 });
+
+
+function getUserFontClass(id) {
+  const fontClasses = [
+    'font-comic-sans',
+    'font-papyrus',
+    'font-comic',
+    'font-courier',
+    'font-space',
+    'font-indie',
+    'font-shadows',
+    'font-patrick',
+    'font-fira'
+  ];
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return fontClasses[Math.abs(hash) % fontClasses.length];
+}

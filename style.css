@@ -28,7 +28,7 @@ h2 {
   border: 1px solid #ddd;
   border-radius: 8px;
   font-family: Arial;
-  font-weight: 600;
+  font-weight: 100;
   font-size: 12px;
   scroll-behavior: smooth;
   scrollbar-width: thin;
@@ -103,7 +103,7 @@ body.dark-mode div.container {
 
 body.dark-mode input {
   background-color: #484848;
-  color: #DDD;
+  color:#ddd
 }
 
 button#toggleDarkMode {
@@ -111,3 +111,13 @@ button#toggleDarkMode {
   width: 100%;
   background-color: cornflowerblue;
 }
+
+.font-comic-sans { font-family: 'Comic Sans MS', 'Comic Neue', cursive; }
+.font-papyrus { font-family: 'Papyrus', fantasy; }
+.font-comic { font-family: 'Comic Neue', cursive; }
+.font-courier { font-family: 'Courier Prime', monospace; }
+.font-space { font-family: 'Space Mono', monospace; }
+.font-indie { font-family: 'Indie Flower', cursive; }
+.font-shadows { font-family: 'Shadows Into Light', cursive; }
+.font-patrick { font-family: 'Patrick Hand', cursive; }
+.font-fira { font-family: 'Fira Code', monospace; }
