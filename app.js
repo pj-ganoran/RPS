@@ -105,3 +105,24 @@ loadLast10Messages();
 clearMessagesBtn.addEventListener('click', () => {
   messagesRef.remove().catch(console.error);
 });
+
+const darkModeToggle = document.getElementById('toggleDarkMode');
+
+function updateDarkModeButton() {
+  darkModeToggle.textContent = document.body.classList.contains('dark-mode')
+    ? '☀️ Light Mode'
+    : '🌙 Dark Mode';
+}
+
+// Load saved preference
+if (localStorage.getItem('darkMode') === 'enabled') {
+  document.body.classList.add('dark-mode');
+}
+updateDarkModeButton();
+
+darkModeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const enabled = document.body.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+  updateDarkModeButton();
+});

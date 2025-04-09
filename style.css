@@ -31,6 +31,8 @@ h2 {
   font-weight: 600;
   font-size: 12px;
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #b8b8b8 rgba(0,0,0,0);
 }
 
 #messageList li {
@@ -84,4 +86,27 @@ button {
   border-radius: 50%;
   margin-right: 8px;
   vertical-align: middle;
+}
+
+body.dark-mode {
+  background-color: #323232;
+  color: #eee;
+}
+
+body.dark-mode #messageList li {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode div.container {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode input {
+  background-color: #484848;
+}
+
+button#toggleDarkMode {
+  margin-top: 10px;
+  width: 100%;
+  background-color: cornflowerblue;
 }
